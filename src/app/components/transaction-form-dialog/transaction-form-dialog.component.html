@@ -1,0 +1,93 @@
+<section class="bg-white dark:bg-gray-900 lg:w-[40vw] md:w-[60vw] sm:min-w-[80vw] w-[95vw] rounded-lg max-h-[90vh] overflow-y-auto mt-[5vh]">
+    <div class="py-2 px-4 mx-auto max-w-2xl lg:py-8">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{editMode ? 'Edit' : 'Add'}} Transaction</h2>
+        <form *ngIf="transactionForm" [formGroup]="transactionForm" (ngSubmit)="addTransaction()">
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                
+                <div class="sm:col-span-2">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
+                    <div type="text" name="name" id="name" class="block bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" >
+                        @for (tag of tags; track $index) {
+                            <span class="mb-2 inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
+                                {{ tag }}
+                                <button (click)="removeTag(tag)" type="button" class="inline-flex items-center p-1 ms-2 text-sm text-blue-400 bg-transparent rounded-sm hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-300" data-dismiss-target="#badge-dismiss-default" aria-label="Remove">
+                                <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Remove badge</span>
+                                </button>
+                            </span>
+                        }
+                          <div class="flex">
+                            <button type="button" (click)="addTag()" class="inline-flex items-center px-3 text-sm  bg-gray-200  rounded-e-0 border-e-0 rounded-s-md text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                  </svg>
+                            </button>
+                            <input name="tags" [(ngModel)]="tag" [ngModelOptions]="{standalone: true}" type="text" id="website-admin" class="block p-2 text-gray-900 border border-gray-300 bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="tag1">
+                          </div>
+
+                    </div>
+                      
+                </div>
+                <div class="w-full">
+                    <label for="account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account</label>
+                    <input formControlName="account" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Account">
+                </div>
+                <div class="w-full">
+                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                    <input  formControlName="amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="INR ">
+                </div>
+                <div class="w-full">
+                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Spend At</label>
+                    <input  formControlName="spendAt" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Spend At ">
+                </div>
+                <div>
+                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                    <select formControlName="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <option value="">Select category</option>
+                        <option value="food">Food</option>
+                        <option value="bill">Bill</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="travel">Travel</option>
+                        <option value="maintainence">Maintainence</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="mode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mode</label>
+                    <select formControlName="mode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <option value="">Select Mode</option>
+                        <option value="UPI">UPI</option>
+                        <option value="NIFT">NIFT</option>
+                        <option value="IMPS">IMPS</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <select formControlName="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <option value="">Select Mode</option>
+                        <option value="DEBIT">Debit</option>
+                        <option value="CREDIT">Credit</option>
+                    </select>
+                </div>
+                <!-- <div>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer">
+                        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Split transaction</span>
+                    </label>
+                </div>  -->
+                <div class="sm:col-span-2">
+                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                    <textarea id="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your description here"></textarea>
+                </div>
+            </div>
+            <div class="w-full flex mt-4 place-content-end">
+                <button (click)="dialogRef.close()" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+    
+                <button type="submit" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">{{editMode ? 'Save' : 'Add'}}</button>
+            </div>
+
+        </form>
+    </div>
+  </section>

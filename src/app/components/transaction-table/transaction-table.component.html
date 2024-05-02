@@ -1,0 +1,18 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg h-80vh">
+     <ag-grid-angular
+    style="height: 75vh;"
+    class="ag-theme-quartz-dark"
+    [columnDefs]="columnDefs"
+    [autoGroupColumnDef]="autoGroupColumnDef"
+    [defaultColDef]="defaultColDef"
+    [suppressRowClickSelection]="true"
+    [groupSelectsChildren]="true"
+    [rowSelection]="rowSelection"
+    [rowGroupPanelShow]="rowGroupPanelShow"
+    [pivotPanelShow]="pivotPanelShow"
+    [pagination]="true"
+    [rowData]="rowData"
+    [class]="themeClass"
+    (gridReady)="onGridReady($event)"
+  ></ag-grid-angular>
+</div>
