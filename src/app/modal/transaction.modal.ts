@@ -27,17 +27,28 @@ export class Transaction {
             case 'upi': return 'UPI';
             case 'nift': return 'NIFT';
             case 'imps': return 'IMPS';
-            default: return '';
+            default: if(type.includes('credit')){return 'CREDIT_CARD'}
+                else if(type.includes('debit')){return 'DEBIT_CARD'}
+                else {return ''}
         }
     }
-
+ 
     getCategory(type:string){
 
     }
 
     constructor(params:any){
         this.id = params?.id; 
-        this.amount = params?.price ? params?.price : params?.amount; 
+        let cost = params?.price ? params?.price : params?.amount; 
+        if(typeof cost === 'string'){
+            cost = cost.replaceAll(',', '');
+            try{
+                const newCost = parseInt(cost)
+                this.amount = newCost;
+            }catch(e){}
+        }else{
+            this.amount = cost;
+        }
         this.account = params?.account; 
         this.description = params?.description; 
         this.tags = params?.tags; 
