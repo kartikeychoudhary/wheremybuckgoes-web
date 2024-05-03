@@ -26,9 +26,6 @@
       "@spartan-ng/ui-button-helm": [
         ".\\src/libs/ui-button-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-icon-helm": [
-        ".\\src/libs/ui-icon-helm/src/index.ts"
-      ],
       "@spartan-ng/ui-input-helm": [
         ".\\src/libs/ui-input-helm/src/index.ts"
       ],
