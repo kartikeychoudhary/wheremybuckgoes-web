@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { provideIcons } from '@spartan-ng/ui-icon-helm';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
@@ -76,7 +75,7 @@ import { FieldEditorDialogComponent } from './components/field-editor-dialog/fie
     NgApexchartsModule,
     FontAwesomeModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, provideIcons({ lucideChevronDown, lucideMoreHorizontal, lucideArrowUpDown })],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
