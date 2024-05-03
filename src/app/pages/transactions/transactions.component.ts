@@ -51,7 +51,7 @@ export class TransactionsComponent {
   onActionTriggered(params): void {
     switch (params['action']) {
       case 'delete':
-        return this.deleteTransaction(params.data.rowData);
+        return this.deleteTransaction(params.data);
       case 'edit':
         return this.openEditDialog(params.data.rowData);
       default:
