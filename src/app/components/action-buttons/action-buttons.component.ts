@@ -8,6 +8,7 @@ import { AgPromise, ICellRendererComp, ICellRendererParams } from 'ag-grid-commu
 })
 export class ActionButtons  implements ICellRendererAngularComp{
   calledFrom: string;
+  isStartTaskDisabled: boolean = false;
   actionTriggered: (rowData:any) => void;
 
   params: ICellRendererParams;
@@ -16,6 +17,12 @@ export class ActionButtons  implements ICellRendererAngularComp{
     this.params = params;
     this.actionTriggered = params?.actionTriggered
     this.calledFrom = params?.calledFrom
+    if((params.data['status'] && params.data['status']!== 'OPEN')){
+      this.isStartTaskDisabled = true;
+    }
+    if((params.data['status'] && params.data['status'] === 'COMPLETED' && params.data['type'] === 'GenAi')){
+      this.isStartTaskDisabled = false;
+    }
    
   }
   refresh(params: ICellRendererParams<any, any, any>): boolean {
@@ -37,6 +44,7 @@ export class ActionButtons  implements ICellRendererAngularComp{
   }
 
   onStartClick() {
+    if(this.isStartTaskDisabled){return;}
     const startData = { // Prepare data for edit action (e.g., row data, field)
       rowData: this.params.data,
     }

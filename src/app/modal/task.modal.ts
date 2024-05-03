@@ -8,4 +8,5 @@ export interface Task {
     request?:string;
     response?:string;
     executionTime?:number;
+    deleted?:boolean;
 }

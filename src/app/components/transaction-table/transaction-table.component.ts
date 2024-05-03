@@ -11,6 +11,7 @@ import {
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { ActionButtons } from '../action-buttons/action-buttons.component';
 import { Transaction } from 'src/app/modal/transaction.modal';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -21,8 +22,10 @@ import { Transaction } from 'src/app/modal/transaction.modal';
 export class TransactionTableComponent {
   @Input() rowDataInput: any[];
   @Input() params: { lastDataUpdated : number, rowData: any[]}
-  @Input() edit: Function;
+  @Input() action: Function
+  @Input() event: Subject<any>;
   gridAPI: GridApi;
+
 
   faEllipsisVertical = faEllipsisVertical;
   public columnDefs: ColDef[] = [
@@ -52,7 +55,7 @@ export class TransactionTableComponent {
         }
       },
       cellRendererParams: {
-        actionTriggered: this.onEdit.bind(this),
+        actionTriggered: this.onAction.bind(this),
         calledFrom: 'TRANSACTION'
       },
     },
@@ -92,6 +95,22 @@ export class TransactionTableComponent {
 
   constructor() {}
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.event.subscribe(value=>{
+      if(this.gridAPI && value['type'] === 'LOADING'){
+        if(value['value']){
+          this.gridAPI.showLoadingOverlay();
+        }else{
+          this.gridAPI.hideOverlay();
+        }
+      }else if(this.gridAPI && value['type'] === 'REFRESH'){
+        this.gridAPI.setGridOption("rowData", this.rowData);
+      }
+    })
+  }
+
   onGridReady(params: GridReadyEvent<Transaction>) {
     this.gridAPI = params.api;
     this.rowData = this.rowDataInput;
@@ -106,8 +125,8 @@ export class TransactionTableComponent {
     return params.api.getRowGroupColumns().length === 0;
   };
 
-  onEdit(params:any) {
-    this.edit(params.data.rowData);
+  onAction(params:any) {
+    this.action(params);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

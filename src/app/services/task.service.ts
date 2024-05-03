@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environment/environment';
+import { Task } from '../modal/task.modal';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,26 @@ export class TaskService {
       'content-type': 'application/json',
     });
     return this.http.get<any>(this.SERVER_URL, { headers });
+  }
+
+  saveTask(task:Task) {
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+    });
+    return this.http.post<any>(this.SERVER_URL, task, { headers });
+  }
+
+  convertTask(task:Task) {
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+    });
+    return this.http.post<any>(this.SERVER_URL + '/convert', task, { headers });
+  }
+
+  startTask(task:Task) {
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+    });
+    return this.http.post<any>(this.SERVER_URL + '/start', task, { headers });
   }
 }

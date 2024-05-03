@@ -81,6 +81,13 @@ export class AuthService {
     }
   }
 
+  getName():string {
+    if(this.loggedInUser){
+      return this.loggedInUser.firstname + ' ' + this.loggedInUser.lastname
+    }
+    return 'User not Logged In'
+  }
+
   logout(): void {
     this.loggedInUser = undefined;
     this.loginEvent.next(undefined);

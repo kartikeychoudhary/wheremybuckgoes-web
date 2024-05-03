@@ -18,6 +18,16 @@ body {
     @apply bg-gray-900 text-gray-100;
 }
 
+#profileImage {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #512DA8;
+  font-size: 35px;
+  color: #fff;
+  text-align: center;
+  line-height: 150px;
+}
 
 .transparent-backdrop {
   background-color: rgba(0, 0, 0, 0.3); /* Adjust transparency as needed */

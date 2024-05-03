@@ -31,7 +31,7 @@ export class TransactionFormDialogComponent {
       category:[this.editMode ? this.transaction['category']:'',  [Validators.required]],
       mode: [   this.editMode ? this.transaction['transactionMode']:'', [Validators.required]],
       type: [   this.editMode ? this.transaction['type']:'',      [Validators.required]],
-      description: [this.editMode ? this.transaction['description']:null, [Validators.required]],
+      description: [this.editMode ? this.transaction['description']:'null', [Validators.required]],
       spendAt: [this.editMode ? this.transaction['spendAt']:null, [Validators.required]]
     })
     this.tags = this.transaction ? this.transaction.tags : [];
@@ -50,11 +50,11 @@ export class TransactionFormDialogComponent {
   }
 
   addTransaction(){
-    const transaction:Transaction = {
+    const transaction = {
       id: this.transaction ? this.transaction['id'] : null,
       account: this.transactionForm.value['account'],
       amount: this.transactionForm.value['amount'],
-      category: this.transactionForm.value['categoty'],
+      category: this.transactionForm.value['category'],
       type: this.transactionForm.value['type'],
       transactionMode: this.transactionForm.value['mode'],
       description: this.transactionForm.value['description'],
