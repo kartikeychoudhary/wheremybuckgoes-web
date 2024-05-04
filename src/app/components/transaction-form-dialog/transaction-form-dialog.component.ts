@@ -14,6 +14,7 @@ export class TransactionFormDialogComponent {
   tags:string[] = []
   tag: string = '';
   transaction: Transaction;
+  date: number;
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<TransactionFormDialogComponent>, @Inject(MAT_DIALOG_DATA) private parameters: {transaction:Transaction, editMode:boolean}){}
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class TransactionFormDialogComponent {
       spendAt: [this.editMode ? this.transaction['spendAt']:null, [Validators.required]]
     })
     this.tags = this.transaction ? this.transaction.tags : [];
+    this.date = this.transaction ? this.transaction['createdDate'] : new Date().getTime(); 
   }
 
   addTag(){
@@ -49,6 +51,10 @@ export class TransactionFormDialogComponent {
     this.tags = filtered;
   }
 
+  handleDateTime(date:any) {
+    this.date = date
+  }
+
   addTransaction(){
     const transaction = {
       id: this.transaction ? this.transaction['id'] : null,
@@ -59,7 +65,8 @@ export class TransactionFormDialogComponent {
       transactionMode: this.transactionForm.value['mode'],
       description: this.transactionForm.value['description'],
       spendAt: this.transactionForm.value['spendAt'],
-      tags: this.tags
+      tags: this.tags,
+      createdDate: this.date
     }
     this.dialogRef.close({transaction, editMode:this.editMode});
   }

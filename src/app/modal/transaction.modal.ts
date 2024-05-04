@@ -51,7 +51,7 @@ export class Transaction {
         }
         this.account = params?.account; 
         this.description = params?.description; 
-        this.tags = params?.tags; 
+        this.tags = params?.tags ? params?.tags : []; 
         this.type = params?.type ? this.getType(params.type.toLowerCase()) : '' 
         this.splits = params?.splits; 
         this.splitsOwner = params?.splitsOwner; 
@@ -61,6 +61,9 @@ export class Transaction {
         this.spendAt = params?.spendAt; 
         if(params?.accountName && params?.accountType){
             this.description = params?.accountType + ' ' + params.accountName;
+        }
+        if(params?.date){
+            this.tags.push(params?.date);
         }
     }
 }

@@ -12,6 +12,7 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { ActionButtons } from '../action-buttons/action-buttons.component';
 import { Transaction } from 'src/app/modal/transaction.modal';
 import { Subject } from 'rxjs';
+import { formatDate } from 'src/app/utils/application.helper';
 
 
 @Component({
@@ -42,9 +43,11 @@ export class TransactionTableComponent {
     },
     { field: 'account' },
     { field: 'amount', maxWidth: 150 },
-    { field: 'description' },
+    { field: 'createdDate', headerName:'Date', valueFormatter: (params)=> formatDate(params.value)  },
     { field: 'type' },
+    { field: 'category' },
     { field: 'transactionMode', headerName:'Mode' },
+    { field: 'description' },
     {
       field: 'action',
       headerName: 'Action',

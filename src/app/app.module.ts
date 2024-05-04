@@ -33,6 +33,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TaskTableComponent } from './components/task-table/task-table.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { FieldEditorDialogComponent } from './components/field-editor-dialog/field-editor-dialog.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { FieldEditorDialogComponent } from './components/field-editor-dialog/fie
     TaskTableComponent,
     FooterComponent,
     TasksComponent,
-    FieldEditorDialogComponent
+    FieldEditorDialogComponent,
+    DatePickerComponent
   ],
   imports: [
     HttpClientModule,

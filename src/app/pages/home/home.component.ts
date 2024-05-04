@@ -11,6 +11,12 @@ import { HomeService } from 'src/app/services/home.service';
 })
 export class HomeComponent {
 
+  selectedDate: Date;
+
+  handleDateTime(date:any) {
+    console.log(date);
+  }
+
   constructor(private homeService:HomeService, private authService:AuthService){
 
   }

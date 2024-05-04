@@ -73,6 +73,9 @@
                         <option value="CREDIT">Credit</option>
                     </select>
                 </div>
+                <div class="">
+                    <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date & Time</label>
+                    <app-date-picker [dateTime]="date" (emitDateTime)="handleDateTime($event)"></app-date-picker></div>
                 <!-- <div>
                     <label class="inline-flex items-center cursor-pointer">
                         <input type="checkbox" value="" class="sr-only peer">

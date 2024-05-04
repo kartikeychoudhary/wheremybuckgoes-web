@@ -40,10 +40,12 @@ export class TransactionsComponent {
     const dialogRef = this.dialog.open(TransactionFormDialogComponent, config);
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.editMode) {
-        this.editTransaction(result.transaction);
-      } else {
-        this.addTransaction(result.transaction);
+      if(result){
+        if (result.editMode) {
+          this.editTransaction(result.transaction);
+        } else {
+          this.addTransaction(result.transaction);
+        }
       }
     });
   }
