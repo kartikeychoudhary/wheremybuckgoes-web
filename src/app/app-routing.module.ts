@@ -9,10 +9,10 @@ import { TasksComponent } from './pages/tasks/tasks.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, canActivate: [authGuard] }, // Protected route
-  { path: 'dashboard', component: DashboardComponent, }, // Protected route
-  { path: 'transactions', component: TransactionsComponent, }, // Protected route
-  { path: 'tasks', component: TasksComponent, }, // Protected route
+  { path: 'home', component: TransactionsComponent, canActivate: [authGuard] }, // Protected route
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] }, // Protected route
+  { path: 'transactions', component: TransactionsComponent, canActivate: [authGuard] }, // Protected route
+  { path: 'tasks', component: TasksComponent, canActivate: [authGuard] }, // Protected route
   { path: 'login', component: LoginComponent },
 ];
 

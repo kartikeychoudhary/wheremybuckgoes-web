@@ -2,6 +2,7 @@ import { Component, Inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Transaction } from 'src/app/modal/transaction.modal';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ApplicationConstant } from 'src/app/constants/application.constant';
 
 @Component({
   selector: 'transaction-form-dialog',
@@ -15,7 +16,14 @@ export class TransactionFormDialogComponent {
   tag: string = '';
   transaction: Transaction;
   date: number;
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<TransactionFormDialogComponent>, @Inject(MAT_DIALOG_DATA) private parameters: {transaction:Transaction, editMode:boolean}){}
+  categories: string[];
+  modes: string[];
+  types: string[];
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<TransactionFormDialogComponent>, @Inject(MAT_DIALOG_DATA) private parameters: {transaction:Transaction, editMode:boolean}){
+    this.categories = ApplicationConstant.CATEGORIES;
+    this.modes = ApplicationConstant.MODE;
+    this.types = ApplicationConstant.TYPE;
+  }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

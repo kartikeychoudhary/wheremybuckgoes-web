@@ -92,7 +92,7 @@ export class AuthService {
     this.loggedInUser = undefined;
     this.loginEvent.next(undefined);
     this.clearToken();
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/login');
   }
   public getAuthToken(){
     return this._authToken

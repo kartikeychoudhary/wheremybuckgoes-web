@@ -46,31 +46,21 @@
                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                     <select formControlName="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         <option value="">Select category</option>
-                        <option value="food">Food</option>
-                        <option value="bill">Bill</option>
-                        <option value="entertainment">Entertainment</option>
-                        <option value="travel">Travel</option>
-                        <option value="maintainence">Maintainence</option>
-                        <option value="supporting home">Supporting Home</option>
+                        <option [value]="c" *ngFor="let c of categories">{{c}}</option>
                     </select>
                 </div>
                 <div>
                     <label for="mode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mode</label>
                     <select formControlName="mode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         <option value="">Select Mode</option>
-                        <option value="UPI">UPI</option>
-                        <option value="NIFT">NIFT</option>
-                        <option value="IMPS">IMPS</option>
-                        <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="DEBIT_CARD">Debit Card</option>
+                        <option [value]="m" *ngFor="let m of modes">{{m}}</option>
                     </select>
                 </div>
                 <div>
                     <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
                     <select formControlName="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         <option value="">Select Mode</option>
-                        <option value="DEBIT">Debit</option>
-                        <option value="CREDIT">Credit</option>
+                        <option [value]="t" *ngFor="let t of types">{{t}}</option>
                     </select>
                 </div>
                 <div class="">
