@@ -12,6 +12,7 @@ export class Transaction {
     category?: string;
     spendAt?: string;
     deleted?:boolean;
+    createdDate?: number;
 
     getType(type:string){
         switch(type){

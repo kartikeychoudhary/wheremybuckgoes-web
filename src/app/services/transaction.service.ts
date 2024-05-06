@@ -18,6 +18,13 @@ export class TransactionService {
     return this.http.get<any>(this.SERVER_URL, { headers });
   }
 
+  getAllTransactionsForDuration(date:number) {
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+    });
+    return this.http.get<any>(this.SERVER_URL + '/after/' + date, { headers });
+  }
+
   saveTransaction(transaction:Transaction) {
     const headers = new HttpHeaders({
       'content-type': 'application/json',

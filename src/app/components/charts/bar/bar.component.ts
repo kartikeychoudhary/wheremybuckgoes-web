@@ -1,6 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartComponent } from 'ng-apexcharts';
+import { ApplicationConstant } from 'src/app/constants/application.constant';
 import { ChartOptions } from 'src/app/modal/chart-options.modal';
+import { Transaction } from 'src/app/modal/transaction.modal';
 
 @Component({
   selector: 'app-bar',
@@ -10,21 +12,45 @@ export class BarComponent {
   @ViewChild('chart') chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
 
+  @Input() series: {name: string, color:string, data:number[]}[] = [];
+  @Input() labels: string[] = [];
+
+  income: number;
+  expense: number;
+  net: number;
+  height = 400;
+
   ngOnInit() {
+    // this.populateChart();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.populateChart();
+    this.updateLabels();
+  }
+
+  updateLabels(){
+    this.series.forEach(ser=>{
+      if(ser.name==='Income'){
+        this.income = ser.data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      }else{
+        this.expense = ser.data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      }
+    })
+    this.net = this.income - this.expense
+  }
+
+  populateChart(){
+    this.height = this.height < this.series[0].data.length * 50 ? this.series[0].data.length * 50 : this.height;
     this.chartOptions = {
       series: [
-        {
-          name: 'Income',
-          color: '#31C48D',
-          data: [1420, 1620, 1820, 1420, 1650, 2120],
-        },
-        {
-          name: 'Expense',
-          data: [788, 810, 866, 788, 1100, 1200],
-          color: '#F05252',
-        },
+        ...this.series
       ],
       chart: {
+        width: "100%",
+        height: this.height,
         sparkline: {
           enabled: false,
         },
@@ -81,11 +107,8 @@ export class BarComponent {
             fontFamily: 'Inter, sans-serif',
             cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
           },
-          formatter: function (value) {
-            return '$' + value;
-          },
         },
-        categories: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        categories: this.labels,
         axisTicks: {
           show: false,
         },

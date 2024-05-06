@@ -16,12 +16,26 @@ export class DatePickerComponent {
     day:number;
     month:number;
     year:number;
-
+    
     days = [];
     years = [];
     hours = [];
     mins = []
-
+    
+    MONTH_NAMES = [
+        {key:0,value:'January', days:31},
+        {key:1,value:'February', days:28},
+        {key:2,value:'March', days:31},
+        {key:3,value:'April', days:30},
+        {key:4,value:'May', days:31},
+        {key:5,value:'June', days:30},
+        {key:6,value:'July', days:31},
+        {key:7,value:'August', days:31},
+        {key:8,value:'September', days:30},
+        {key:9,value:'October', days:31},
+        {key:10,value:'November', days:30},
+        {key:11,value:'December', days:31},
+    ]
     ngOnInit(): void {
         const date = this.dateTime ? new Date(this.dateTime): new Date();
         this.populateYears()
@@ -76,20 +90,6 @@ export class DatePickerComponent {
         }
     }
 
-    MONTH_NAMES = [
-        {key:0,value:'January', days:31},
-        {key:1,value:'February', days:28},
-        {key:2,value:'March', days:31},
-        {key:3,value:'April', days:30},
-        {key:4,value:'May', days:31},
-        {key:5,value:'June', days:30},
-        {key:6,value:'July', days:31},
-        {key:7,value:'August', days:31},
-        {key:8,value:'September', days:30},
-        {key:9,value:'October', days:31},
-        {key:10,value:'November', days:30},
-        {key:11,value:'December', days:31},
-    ]
 
     onChangeMonth(){
         const maxDays = this.MONTH_NAMES[this.month].days;

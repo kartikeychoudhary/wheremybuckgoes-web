@@ -8,7 +8,6 @@ import {
   HeaderCheckboxSelectionCallbackParams,
   IGroupCellRendererParams,
 } from 'ag-grid-community';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { ActionButtons } from '../action-buttons/action-buttons.component';
 import { Transaction } from 'src/app/modal/transaction.modal';
 import { Subject } from 'rxjs';
@@ -27,26 +26,36 @@ export class TransactionTableComponent {
   @Input() event: Subject<any>;
   gridAPI: GridApi;
 
+  getStatusClass = (status) => {
+    switch (status) {
+      case 'DEBIT':
+        return 'text-red-500'; // Red color
+      case 'CREDIT':
+        return 'text-green-500'; // Green color
+      default:
+        return ''; // Default class for unknown status
+    }
+  };
 
-  faEllipsisVertical = faEllipsisVertical;
   public columnDefs: ColDef[] = [
     {field: 'id', hide: true},
-    {
-      field: 'select',
-      headerName: '',
-      maxWidth: 50,
-      checkboxSelection: (params: CheckboxSelectionCallbackParams) =>
-        this.checkboxSelection(params),
-      headerCheckboxSelection: (
-        params: HeaderCheckboxSelectionCallbackParams
-      ) => this.headerCheckboxSelection(params),
-    },
+    // {
+    //   field: 'select',
+    //   headerName: '',
+    //   maxWidth: 50,
+    //   checkboxSelection: (params: CheckboxSelectionCallbackParams) =>
+    //     this.checkboxSelection(params),
+    //   headerCheckboxSelection: (
+    //     params: HeaderCheckboxSelectionCallbackParams
+    //   ) => this.headerCheckboxSelection(params),
+    // },
     { field: 'account' },
-    { field: 'amount', maxWidth: 150 },
-    { field: 'createdDate', headerName:'Date', valueFormatter: (params)=> formatDate(params.value)  },
-    { field: 'type' },
+    { field: 'amount', maxWidth: 150, cellClass: (params) => this.getStatusClass(params.data.type) },
+    { field: 'createdDate', headerName:'Date', sort: "desc", valueFormatter: (params)=> formatDate(params.value)  },
+    { field: 'type', hide:true },
     { field: 'category' },
     { field: 'transactionMode', headerName:'Mode' },
+    { field: 'spendAt' },
     { field: 'description' },
     {
       field: 'action',

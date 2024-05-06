@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { AuthService } from './services/auth.service';
-import { generateInitialsAvatar } from './utils/application.helper';
 
 
 @Component({

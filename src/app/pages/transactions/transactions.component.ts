@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { TransactionFormDialogComponent } from 'src/app/components/transaction-form-dialog/transaction-form-dialog.component';
 import { Transaction } from 'src/app/modal/transaction.modal';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { getMillisForLast } from 'src/app/utils/application.helper';
 
 @Component({
   selector: 'app-transactions',
@@ -15,6 +16,7 @@ export class TransactionsComponent {
   isDataLoaded: boolean;
   event = new Subject();
   rowData = [];
+  duration: string = '7_DAYS';
   constructor(
     public dialog: MatDialog,
     private transactionService: TransactionService
@@ -73,17 +75,31 @@ export class TransactionsComponent {
 
   loadTransactions() {
     this.showLoading(true);
-    this.transactionService.getAllTransactions().subscribe({
-      next: (res) => {
-        if (res['status'] === 'OK') {
-          this.rowData = res['payload']['RESULT'];
+    if(this.duration === 'ALL'){
+      this.transactionService.getAllTransactions().subscribe({
+        next: (res) => {
+          if (res['status'] === 'OK') {
+            this.rowData = res['payload']['RESULT'];
+            this.showLoading(false);
+          }
+        },
+        error: (err) => {
           this.showLoading(false);
-        }
-      },
-      error: (err) => {
-        this.showLoading(false);
-      },
-    });
+        },
+      });
+    }else{
+      this.transactionService.getAllTransactionsForDuration(getMillisForLast(this.duration)).subscribe({
+        next: (res) => {
+          if (res['status'] === 'OK') {
+            this.rowData = res['payload']['RESULT'];
+            this.showLoading(false);
+          }
+        },
+        error: (err) => {
+          this.showLoading(false);
+        },
+      });
+    }
   }
 
   addTransaction(transaction: Transaction) {
