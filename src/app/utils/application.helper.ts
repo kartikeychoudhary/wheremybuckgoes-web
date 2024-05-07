@@ -14,6 +14,18 @@ export const formatDate = (millis) => {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 
+export const convertDateToMillis = (dateString: string): number => {
+  if(dateString === 'No Data'){return 0;}
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+    
+    // Note: Months are zero-based in JavaScript Date objects, so we need to subtract 1 from the month
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hours), parseInt(minutes));
+    
+    return date.getTime();
+}
+
 export const formatExecutionTime = (millis) => {
   // Ensure millis is a positive number (handle negative values if needed)
   const time = Math.abs(millis);

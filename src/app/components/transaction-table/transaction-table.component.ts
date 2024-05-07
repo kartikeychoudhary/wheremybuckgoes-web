@@ -11,7 +11,7 @@ import {
 import { ActionButtons } from '../action-buttons/action-buttons.component';
 import { Transaction } from 'src/app/modal/transaction.modal';
 import { Subject } from 'rxjs';
-import { formatDate } from 'src/app/utils/application.helper';
+import { convertDateToMillis, formatDate } from 'src/app/utils/application.helper';
 
 
 @Component({
@@ -51,8 +51,8 @@ export class TransactionTableComponent {
     // },
     { field: 'account' },
     { field: 'amount', maxWidth: 150, cellClass: (params) => this.getStatusClass(params.data.type) },
-    { field: 'createdDate', headerName:'Date', sort: "desc", valueFormatter: (params)=> formatDate(params.value)  },
-    { field: 'type', hide:true },
+    { field: 'createdDate',type:'date' ,headerName:'Date', valueGetter: (params)=> formatDate(params.data.createdDate), comparator: (A, B) => convertDateToMillis(A) - convertDateToMillis(B)  },
+    { field: 'type' },
     { field: 'category' },
     { field: 'transactionMode', headerName:'Mode' },
     { field: 'spendAt' },
