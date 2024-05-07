@@ -7,7 +7,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DecimalPipe, TitleCasePipe } from '@angular/common';
-import { lucideArrowUpDown, lucideChevronDown, lucideMoreHorizontal } from '@ng-icons/lucide';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
 import { LoginComponent } from './pages/login/login.component';
@@ -34,6 +33,7 @@ import { TaskTableComponent } from './components/task-table/task-table.component
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { FieldEditorDialogComponent } from './components/field-editor-dialog/field-editor-dialog.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { BulkUploadComponent } from './pages/bulk-upload/bulk-upload.component';
 
 
 @NgModule({
@@ -58,7 +58,8 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
     FooterComponent,
     TasksComponent,
     FieldEditorDialogComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    BulkUploadComponent
   ],
   imports: [
     HttpClientModule,

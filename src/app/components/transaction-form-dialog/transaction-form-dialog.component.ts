@@ -41,7 +41,8 @@ export class TransactionFormDialogComponent {
       mode: [   this.editMode ? this.transaction['transactionMode']:'', [Validators.required]],
       type: [   this.editMode ? this.transaction['type']:'',      [Validators.required]],
       description: [this.editMode ? this.transaction['description']:'null', [Validators.required]],
-      spendAt: [this.editMode ? this.transaction['spendAt']:null, [Validators.required]]
+      spendAt: [this.editMode ? this.transaction['spendAt']:null, [Validators.required]],
+      disableForCharts: [this.editMode ? this.transaction['disableForCharts']:false]
     })
     this.tags = this.transaction ? this.transaction.tags : [];
     this.date = this.transaction ? this.transaction['createdDate'] : new Date().getTime(); 
@@ -73,8 +74,10 @@ export class TransactionFormDialogComponent {
       transactionMode: this.transactionForm.value['mode'],
       description: this.transactionForm.value['description'],
       spendAt: this.transactionForm.value['spendAt'],
+      disableForCharts: this.transactionForm.value['disableForCharts'],
       tags: this.tags,
-      createdDate: this.date
+      createdDate: this.date,
+      
     }
     this.dialogRef.close({transaction, editMode:this.editMode});
   }

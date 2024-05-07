@@ -28,6 +28,7 @@ export class DashboardComponent {
   uniqueSelected = '';
 
   duration = '7_DAYS';
+  seriesIndex = 1;
 
   constructor(
     private dashboardService: DashboardService
@@ -64,11 +65,30 @@ export class DashboardComponent {
   }
 
   selector(){
+    this.updateMultiDimChart();
+    this.updateSingleDimChart();
+  }
+
+  updateMultiDimChart (){
     this.multiDimChartSeries = this.multiDimChart[this.account].series;
     this.multiDimChartLabels = this.multiDimChart[this.account].labels;
-
-    this.singleDimChartSeries = this.singleDimChart[this.account][this.uniqueSelected][1].series;
-    this.singleDimChartLabels = this.singleDimChart[this.account][this.uniqueSelected][1].labels;
   }
+
+  updateSingleDimChart(){
+    this.singleDimChartSeries = this.singleDimChart[this.account][this.uniqueSelected][this.seriesIndex].series;
+    this.singleDimChartLabels = this.singleDimChart[this.account][this.uniqueSelected][this.seriesIndex].labels;
+  }
+
+  handleEvent(event){
+    const {label, seriesIndex, isSelected} = event;
+    if(isSelected){
+      this.seriesIndex = seriesIndex;
+      this.uniqueSelected = label;
+    }else{
+      this.seriesIndex = 1;
+      this.uniqueSelected = 'ALL'
+    }
+    this.updateSingleDimChart();
+  } 
   
 }

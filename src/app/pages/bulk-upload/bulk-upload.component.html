@@ -1,0 +1,162 @@
+<div class="overflow-auto grid grid-flow-row auto-cols-auto gap-4 md:grid-cols-2 lg:grid-cols-4 sm:grid-cols-1 grid-cols-1">
+    <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+        <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+        Bulk Upload
+        </h5>
+    
+        <ol class="space-y-4 w-72" *ngIf="steps">
+            <li>
+                <button class="w-full p-4" role="alert"
+                [ngClass]="steps.downloadTemplate.status === 'pending' ? 'text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400' : 'text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-green-800 dark:text-green-400'"
+                (click)="downloadTemplate();steps.downloadTemplate.status = 'completed'">
+                    <div class="flex items-center justify-between">
+                        <span class="sr-only">{{steps.downloadTemplate.label}}</span>
+                        <h3 class="font-medium">{{steps.downloadTemplate.label}}</h3>
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12" *ngIf="steps.downloadTemplate.status === 'completed'">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                        </svg>
+                    </div>
+                    <p class="text-left text-xs">Click here to download template.</p>
+                </button>
+            </li>
+            <li>
+                <div class="w-full p-4" role="alert"
+                [ngClass]="steps.uploadTemplate.status === 'pending' ? 'text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400' : 'text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-green-800 dark:text-green-400'">
+                    <div class="flex items-center justify-between">
+                        <span class="sr-only">{{steps.uploadTemplate.label}}</span>
+                        <h3 class="font-medium">{{steps.uploadTemplate.label}}</h3>
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12" *ngIf="steps.uploadTemplate.status === 'completed'">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                        </svg>
+                    </div>
+                    <p class="text-left text-xs">Upload template with data.</p>
+                </div>
+            </li>
+            <li>
+                <button class="w-full p-4" role="alert"
+                [ngClass]="steps.previewTemplate.status === 'pending' ? 'text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400' : 'text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-green-800 dark:text-green-400'"
+                (click)="steps.uploadTemplate.status === 'completed' ?  steps.previewTemplate.status = 'completed' : ''">
+                    <div class="flex items-center justify-between">
+                        <span class="sr-only">{{steps.previewTemplate.label}}</span>
+                        <h3 class="font-medium">{{steps.previewTemplate.label}}</h3>
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12" *ngIf="steps.previewTemplate.status === 'completed'">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                        </svg>
+                    </div>
+                    <p class="text-left text-xs">Click here once you have verified the preview data</p>
+                </button>
+            </li>
+            <li>
+                <div class="w-full p-4" role="alert"
+                [ngClass]="steps.submitTemplate.status === 'pending' ? 'text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400' : 'text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-green-800 dark:text-green-400'"
+                >
+                    <div class="flex items-center justify-between">
+                        <span class="sr-only">{{steps.submitTemplate.label}}</span>
+                        <h3 class="font-medium">{{steps.submitTemplate.label}}</h3>
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12" *ngIf="steps.submitTemplate.status === 'completed'">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                        </svg>
+                    </div>
+                    <p class="text-left text-xs">Submit the verified template. <br><span class="font-black">Once submitted you can not undo this transaction.</span></p>
+                </div>
+            </li>
+            <li>
+                <div class="w-full p-4" role="alert"
+                [ngClass]="steps.jobCompleted.status === 'pending' ? 'text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400' : 'text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-green-800 dark:text-green-400'"
+                >
+                    <div class="flex items-center justify-between">
+                        <span class="sr-only">{{steps.jobCompleted.label}}</span>
+                        <h3 class="font-medium">{{steps.jobCompleted.label}}</h3>
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12" *ngIf="steps.jobCompleted.status === 'completed'">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                        </svg>
+                    </div>
+                    <p class="text-left text-xs">This will turn green when the job is completed.</p>
+                </div>
+            </li>
+            
+        </ol>
+    </div>
+    
+    <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex justify-center w-full h-80">
+            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400" *ngIf="!selectedFile"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400" *ngIf="selectedFile"><span class="font-semibold">{{selectedFile.name}}</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" >CSV File</p>
+                </div>
+                <input id="dropzone-file" type="file" class="hidden" (change)="onFileSelected($event)" [disabled]="submitDisabled" />
+            </label>
+        </div> 
+        <button (click)="uploadCSV()" type="button" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 justify-center w-full text-center" [disabled]="submitDisabled">Upload</button>
+        <button type="button" class="mt-2 block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-200 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900 font-medium rounded-lg text-sm px-5 py-2.5 justify-center w-full text-center" [ngClass]="{'hidden':transactions.length === 0}" type="button" data-drawer-target="drawer-bottom-example" data-drawer-toggle="drawer-bottom-example" data-drawer-placement="bottom" aria-controls="drawer-bottom-example">Preview</button>
+        <button *ngIf="steps.previewTemplate.status === 'completed'" (click)="submitCSV()" type="button" class="mt-2 block text-white bg-yellow-400 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 dark:focus:ring-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5 justify-center w-full text-center" [disabled]="submitDisabled">Submit</button>
+    </div>
+</div>
+
+<!-- drawer component -->
+<div [hidden]="transactions.length === 0" id="drawer-bottom-example" class="fixed bottom-0 left-0 right-0 z-40 w-full p-4 overflow-y-auto transition-transform bg-white dark:bg-gray-800 transform-none" tabindex="-1" aria-labelledby="drawer-bottom-label">
+    <h5 id="drawer-bottom-label" class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"><svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>Preview</h5>
+    <button type="button" data-drawer-hide="drawer-bottom-example" aria-controls="drawer-bottom-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" >
+      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+      <span class="sr-only">Close menu</span>
+   </button>
+   <div class="relative overflow-x-auto max-h-[50vh]" >
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    date
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    account
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    description
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    amount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let transaction of transactions">
+                <td scope="col" class="px-6 py-3">
+                    {{getFormatedDate(transaction.createdDate)}}
+                </td>
+                <td scope="col" class="px-6 py-3">
+                    {{transaction.account}}
+                </td>
+                <td scope="col" class="px-6 py-3">
+                   {{transaction.description}}
+                </td>
+                <td scope="col" class="px-6 py-3">
+                    {{transaction.category}}
+                </td>
+                <td scope="col" class="px-6 py-3">
+                    {{transaction.type}}
+                </td>
+                <td scope="col" class="px-6 py-3">
+                    {{transaction.amount}}
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+</div>

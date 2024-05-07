@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartComponent } from 'ng-apexcharts';
 import { ApplicationConstant } from 'src/app/constants/application.constant';
 import { ChartOptions } from 'src/app/modal/chart-options.modal';
@@ -14,11 +14,12 @@ export class BarComponent {
 
   @Input() series: {name: string, color:string, data:number[]}[] = [];
   @Input() labels: string[] = [];
+  @Output() event = new EventEmitter<any>();
 
   income: number;
   expense: number;
   net: number;
-  height = 400;
+  height = 250;
 
   ngOnInit() {
     // this.populateChart();
@@ -62,6 +63,14 @@ export class BarComponent {
         toolbar: {
           show: false,
         },
+        events: {
+          dataPointSelection: (event, chartContext, config) => {
+            const seriesIndex = config.seriesIndex // console.log(config.w.config.series[config.seriesIndex]['data'][config.dataPointIndex])
+            const label = this.labels[config.dataPointIndex]
+            const isSelected = config.selectedDataPoints.filter(t=>{if(t){return t.length>0}return false;}).length > 0
+            this.event.emit({seriesIndex, label, isSelected})
+          }
+        }
       },
       plotOptions: {
         bar: {
@@ -86,7 +95,7 @@ export class BarComponent {
         opacity: 1,
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
       },
       stroke: {
         width: 6,
@@ -102,11 +111,12 @@ export class BarComponent {
       },
       xaxis: {
         labels: {
-          show: true,
+          show: false,
           style: {
             fontFamily: 'Inter, sans-serif',
             cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
           },
+          hideOverlappingLabels:true
         },
         categories: this.labels,
         axisTicks: {

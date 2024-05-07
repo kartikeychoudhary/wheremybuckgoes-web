@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartComponent } from 'ng-apexcharts';
 import { ChartOptions } from 'src/app/modal/chart-options.modal';
 
@@ -8,89 +8,116 @@ import { ChartOptions } from 'src/app/modal/chart-options.modal';
 })
 export class DonutComponent {
   @ViewChild('chart') chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>
+  public chartOptions: Partial<ChartOptions>;
 
-  ngOnInit() {
+  @Input() series: number[] = [];
+  @Input() labels: string[] = [];
+  @Input() duration: string;
+  height = 400;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.sortChart();
+    this.populateChart();
+    // this.updateLabels();
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+  }
+
+  populateChart() {
+    this.height =
+      this.height < this.series.length * 50
+        ? this.series.length * 50
+        : this.height;
     this.chartOptions = {
-      series: [35.1, 23.5, 2.4, 5.4],
-    colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
-    chart: {
-      height: 320,
-      width: "100%",
-      type: "donut",
-    },
-    stroke: {
-      colors: ["transparent"],
-      lineCap: "butt",
-    },
-    plotOptions: {
-      pie: {
-        donut: {
-          labels: {
-            show: true,
-            name: {
+      series: this.series,
+      chart: {
+        height: this.height,
+        width: '100%',
+        type: 'donut',
+      },
+      stroke: {
+        colors: ['transparent'],
+        lineCap: 'butt',
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
               show: true,
-              fontFamily: "Inter, sans-serif",
-              offsetY: 20,
-            },
-            total: {
-              showAlways: true,
-              show: true,
-              label: "Unique visitors",
-              fontFamily: "Inter, sans-serif",
-              formatter: function (w) {
-                const sum = w.globals.seriesTotals.reduce((a, b) => {
-                  return a + b
-                }, 0)
-                return '$' + sum + 'k'
+              name: {
+                show: true,
+                fontFamily: 'Inter, sans-serif',
+                offsetY: 20,
+              },
+              value: {
+                show: true,
+                fontFamily: 'Inter, sans-serif',
+                offsetY: -20,
+                formatter: function (value) {
+                  return value;
+                },
               },
             },
-            value: {
-              show: true,
-              fontFamily: "Inter, sans-serif",
-              offsetY: -20,
-              formatter: function (value) {
-                return value + "k"
-              },
-            },
+            size: '80%',
           },
-          size: "80%",
         },
       },
-    },
-    grid: {
-      padding: {
-        top: -2,
-      },
-    },
-    labels: ["Direct", "Sponsor", "Affiliate", "Email marketing"],
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      position: "bottom",
-      fontFamily: "Inter, sans-serif",
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return value + "k"
+      grid: {
+        padding: {
+          top: -2,
         },
       },
-    },
-    xaxis: {
-      labels: {
-        formatter: function (value) {
-          return value  + "k"
+      labels: this.labels,
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        onItemHover: {
+          highlightDataSeries: true,
+        },
+        position: 'bottom',
+        fontFamily: 'Inter, sans-serif',
+        formatter: function (value, opts) {
+          return value;
+        },
+        horizontalAlign: 'left',
+      },
+      yaxis: {
+        labels: {
+          formatter: function (value) {
+            return value + '';
+          },
         },
       },
-      axisTicks: {
-        show: false,
+      xaxis: {
+        labels: {
+          formatter: function (value) {
+            return value;
+          },
+        },
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
       },
-      axisBorder: {
-        show: false,
-      },
-    },
-    }
+    };
+  }
+
+  sortChart(){
+    const combinedData = this.series.map((item, index) => {
+      return { label: this.labels[index], value: item };
+    });
+    combinedData.sort((a, b) => b.value - a.value);
+    const sortedLabels = combinedData.map(val=>val.label);
+    const sortedSeries = combinedData.map(val=>val.value);
+    this.series = sortedSeries;
+    this.labels = sortedLabels;
   }
 }

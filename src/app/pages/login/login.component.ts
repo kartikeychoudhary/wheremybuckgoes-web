@@ -82,8 +82,21 @@ export class LoginComponent {
       if(this.registerForm.value.password !== this.registerForm.value.confirmPassword){
         this.passwordMismatch = true;
       }
-      if(this.registerForm.valid){
+      if(this.registerForm.valid && !this.passwordMismatch){
         this.isLoading = true;
+        this.authService.register(this.registerForm.value.email , this.registerForm.value.password, this.registerForm.value.firstName, this.registerForm.value.lastName).subscribe(
+          {
+            next: (response)=>{
+            this.isLoading = false;
+            const {firstname, lastname, email, profilePicURL} = response.user;
+            this.authService.parseUserInfo(firstname, lastname, email, profilePicURL);
+            this.authService.storeToken(response.access_token, response.refresh_token);
+            this.router.navigate([''])
+          },
+          error: (err)=>{
+            this.isLoading = false;
+          }}
+        )
       }
     }
   }

@@ -58,6 +58,11 @@ export class PieComponent {
       legend: {
         position: 'bottom',
         fontFamily: 'Inter, sans-serif',
+        formatter: function (value, opts) {
+            const amount = opts['w']['config']['series'][opts.seriesIndex];
+            return value + ' : ' + amount;
+        },
+        horizontalAlign:'left',
       },
       yaxis: {
         labels: {
