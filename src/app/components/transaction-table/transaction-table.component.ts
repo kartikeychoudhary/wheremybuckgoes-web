@@ -111,14 +111,18 @@ export class TransactionTableComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.event.subscribe(value=>{
-      if(this.gridAPI && value['type'] === 'LOADING'){
-        if(value['value']){
-          this.gridAPI.showLoadingOverlay();
-        }else{
-          this.gridAPI.hideOverlay();
+      if(this.gridAPI){
+        if(value['type'] === 'LOADING'){
+          if(value['value']){
+            this.gridAPI.showLoadingOverlay();
+          }else{
+            this.gridAPI.hideOverlay();
+          }
+        }else if(value['type'] === 'REFRESH'){
+          this.gridAPI.setGridOption("rowData", this.rowData);
+        }else if(value['type'] === 'EXPORT_CSV'){
+          this.gridAPI.exportDataAsCsv()
         }
-      }else if(this.gridAPI && value['type'] === 'REFRESH'){
-        this.gridAPI.setGridOption("rowData", this.rowData);
       }
     })
   }

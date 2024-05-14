@@ -151,4 +151,8 @@ export class TransactionsComponent {
       },
     });
   }
+
+  exportCSV(){
+    this.event.next({type:'EXPORT_CSV'})
+  }
 }
