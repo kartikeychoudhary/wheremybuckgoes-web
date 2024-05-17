@@ -17,6 +17,10 @@ export class TransactionsComponent {
   event = new Subject();
   rowData = [];
   duration: string = '7_DAYS';
+  columns: {isSelected:boolean, title:string}[];
+
+  isViewLoaded = false;
+
   constructor(
     public dialog: MatDialog,
     private transactionService: TransactionService
@@ -27,6 +31,20 @@ export class TransactionsComponent {
     //Add 'implements OnInit' to the class.
     this.actionTriggered = this.onActionTriggered.bind(this);
     this.loadTransactions();
+    this.event.subscribe((event)=>{
+      if(event['calledFrom'] && event['calledFrom'] === 'TRANSACTIONS'){return;}
+      if(event['type'] && event['type'] === 'COLUMNS'){
+        this.populateColumns(event['value'])
+      }
+    })
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    setTimeout(() => {
+      this.isViewLoaded = true;
+    }, 100);
   }
 
   openDialog(transaction?: Transaction): void {
@@ -67,10 +85,10 @@ export class TransactionsComponent {
     this.openDialog(transaction);
   }
   showLoading(value: boolean) {
-    this.event.next({ type: 'LOADING', value });
+    this.event.next({ type: 'LOADING', value, calledFrom:'TRANSACTIONS' });
   }
   refreshData(value: boolean) {
-    this.event.next({ type: 'REFRESH', value });
+    this.event.next({ type: 'REFRESH', value, calledFrom:'TRANSACTIONS' });
   }
 
   loadTransactions() {
@@ -153,6 +171,13 @@ export class TransactionsComponent {
   }
 
   exportCSV(){
-    this.event.next({type:'EXPORT_CSV'})
+    this.event.next({type:'EXPORT_CSV', calledFrom:'TRANSACTIONS'})
+  }
+
+  populateColumns(columns:{isSelected:boolean, title:string}[]){
+    this.columns = columns;
+  }
+  refreshSelectedColumns(){
+    this.event.next({ type: 'SHOW_HIDE_COLUMN', value:this.columns, calledFrom:'TRANSACTIONS' });
   }
 }

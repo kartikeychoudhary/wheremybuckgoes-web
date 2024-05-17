@@ -57,6 +57,7 @@ export class TransactionTableComponent {
     { field: 'transactionMode', headerName:'Mode' },
     { field: 'spendAt' },
     { field: 'description' },
+    { field: 'disableForCharts', hide:true, headerName:'Disabled for charts', valueGetter: (params)=> params.data.disableForCharts+''},
     {
       field: 'action',
       headerName: 'Action',
@@ -112,6 +113,7 @@ export class TransactionTableComponent {
     //Add 'implements OnInit' to the class.
     this.event.subscribe(value=>{
       if(this.gridAPI){
+        if(value['calledFrom'] && value['calledFrom'] === 'TRANSACTIONS_TABLE'){return;}
         if(value['type'] === 'LOADING'){
           if(value['value']){
             this.gridAPI.showLoadingOverlay();
@@ -119,14 +121,29 @@ export class TransactionTableComponent {
             this.gridAPI.hideOverlay();
           }
         }else if(value['type'] === 'REFRESH'){
-          this.gridAPI.setGridOption("rowData", this.rowData);
+          this.gridAPI.setGridOption('rowData', this.rowData);
         }else if(value['type'] === 'EXPORT_CSV'){
           this.gridAPI.exportDataAsCsv()
+        }else if(value['type'] === 'SHOW_HIDE_COLUMN'){
+          const selectedColumn = value['value'];
+          const map = new Map<string, boolean>();
+          selectedColumn.forEach(col=> map.set(col.title, col.isSelected));
+          this.columnDefs.forEach(col=>{
+            if(map.has(col.field)){
+              col.hide = !map.get(col.field);
+            }
+          })
+          this.gridAPI.setGridOption('columnDefs', this.columnDefs)
         }
       }
     })
   }
-
+  
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.populateColumnSelection();
+  }
   onGridReady(params: GridReadyEvent<Transaction>) {
     this.gridAPI = params.api;
     this.rowData = this.rowDataInput;
@@ -151,5 +168,10 @@ export class TransactionTableComponent {
     if(this.gridAPI){
       this.rowData = this.rowDataInput;
     }
+  }
+
+  populateColumnSelection(){
+    const keys = this.columnDefs.map(column=> {return {title:column.field, isSelected: !column.hide}});
+    this.event.next({value:keys, calledFrom:'TRANSACTIONS_TABLE', type:'COLUMNS'});
   }
 }
